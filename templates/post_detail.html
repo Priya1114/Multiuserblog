@@ -1,0 +1,181 @@
+{% extends "base.html" %} {% block content %}
+<div class="container">
+    <div class="row" style="margin-bottom: 0px;">
+        <div class="col m8 offset-m2 s12 ">
+            <div class="card animi-shadow z-depth-2">
+                <div class="card-image">
+                    <img src="{{post.imageurl}}" style="height: 35vh;">
+                    <span class="card-title font-thin-heading">{{post.title}}</span>
+                </div>
+
+                <div class="card-content">
+                    <a id="share" class="btn-floating like_button btn-large waves-effect waves-ripple" href="/like/{{ post.key().id() }}"><i class="material-icons  red-text" style="font-size: 2.0rem;">favorite</i></a>
+                    <div class="row no-margin">
+                        <div class="col s7 m8">
+                            <h5 class="no-margin">{{post.author}}</h5>
+                            <p class="date-style">{{post.created.strftime("%b %d, %Y")}}</p>
+                        </div>
+                        <div class="col s5 m4" style="margin-top:5px;">
+                            <span class="right like float-text">{{post.likes}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row no-margin">
+        <div class="col m8 offset-m2 s12 ">
+            <div class="card animi-shadow z-depth-2">
+                <div class="card-content">
+                    <div class="row">
+                        <div class="col s12">
+                            <p class="flow-text post-detail-content">
+                                {{post.content|safe}}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- <div class="row" style="margin-bottom: 8vh; margin-top: 5vh;">
+        <div class="col m8 offset-m2 s12">
+            <a href="base.html" class="left grey-text">
+                <button class="btn no-padding transparent z-depth-0">
+                    <i class="material-icons">arrow_back</i>
+                </button> Newer
+            </a>
+            <a href="base.html" class="right grey-text">
+                  Older
+                  <button class="btn no-padding transparent z-depth-0">
+                    <i class="material-icons">arrow_forward</i>
+                  </button>
+                </a>
+        </div>
+    </div> -->
+
+
+    <div class="row no-margin">
+        <div class="col m8 offset-m2 s12 ">
+            <div class="card animi-shadow z-depth-2 grey lighten-4">
+                <div class="card-content" style="padding-top: 7vh;">
+                    {% if not postcomment %}
+                    <div class="row">
+                        <div class="col s12">
+                            <form class="col s12" id="post-comment" method="post" action="/addcomment/{{ post.key().id() }}">
+                                <div class="input-field col s8 m10">
+                                    <textarea id="comment" name="comment" class="materialize-textarea textarea-nopadding black-text" rows="0"></textarea>
+                                    <label for="comment" class="label-font black-text">Leave Comment</label>
+                                </div>
+                                <div class="col s4 m2">
+                                    <button type="button" onclick="validate_new_comment()" class="btn waves-effect waves-ripple orange btn-check">
+                                        <i class="material-icons">send</i>
+                                    </button>
+                                </div>
+                            </form>
+
+                        </div>
+
+                    </div>
+                    {% else %}
+                    <div class="row">
+                        <div class="col s12">
+                            <form class="col s12" id="post-comment" method="post" action="/editcomment/{{ post.key().id() }}/{{ comment.key().id() }}">
+                                <div class="input-field col s8 m10">
+                                    <textarea id="comment" name="comment" class="materialize-textarea textarea-nopadding black-text" rows="0" autofocus>{{postcomment}}</textarea>
+                                    <label for="comment" class="label-font black-text">Leave Comment</label>
+                                </div>
+                                <div class="col s4 m2">
+                                    <button type="button" onclick="validate_new_comment()" class="btn waves-effect waves-ripple orange btn-check">
+                                        <i class="material-icons">send</i>
+                                    </button>
+                                </div>
+                            </form>
+
+                        </div>
+
+                    </div>
+                    {% endif %}
+
+                    <!--Dummy comment-->
+                    <div class="row">
+                        <div class="col s12">
+                            <div class="comment-section">
+                                <div class="image-holder">
+                                    <img src="/assets/images/yuna.jpg" alt="User" />
+                                </div>
+                                <div class="comment-desc">
+                                    <p class="questions">This is a Dummy Comment.</p>
+                                    <div class="user-desv">
+                                        <div class="userlinks">
+                                            <span class="user-name">
+                                  Admin
+                                  </span>
+                                            <a href="#"> Posted On </a>
+                                            <span class="muted-txt">20 Dec, 2016</span>
+                                        </div>
+                                        <div class="likes-sec right">
+                                            <a href="">
+                                                <i class="material-icons grey-text text-darken-2">edit</i>
+                                            </a>
+                                            <a href="">
+                                                <i class="material-icons grey-text text-darken-2">delete_sweep</i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {% for comment in comments %}
+                    <div class="row">
+                        <div class="col s12">
+                            <div class="comment-section">
+                                <div class="image-holder">
+                                    <img src="/assets/images/yuna.jpg" alt="User" />
+                                </div>
+                                <div class="comment-desc">
+                                    <p class="questions">{{comment.content|safe}}</p>
+                                    <div class="user-desv">
+                                        <div class="userlinks">
+                                            <span class="user-name">{{comment.username}}</span>
+                                            <a href="#"> Posted On </a>
+                                            <span class="muted-txt">{{comment.created.strftime("%b %d, %Y")}}</span>
+                                        </div>
+                                        <div class="likes-sec right">
+                                            <a href="/editcomment/{{ post.key().id() }}/{{ comment.key().id() }}">
+                                                <i class="material-icons grey-text text-darken-2">edit</i>
+                                            </a>
+                                            <a href="/deletecomment/{{ post.key().id() }}/{{ comment.key().id() }}">
+                                                <i class="material-icons grey-text text-darken-2">delete_sweep</i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {% endfor %}
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="fixed-action-btn">
+    <a class="btn-floating fab_menu btn-large waves-effect waves-ripple translucent-fab z-depth-2">
+        <i class="large material-icons">description</i>
+    </a>
+    <ul>
+        <li><a class="btn-floating menu_add waves-effect waves-ripple  translucent-fab" href="/new"><i class="material-icons">add</i></a></li>
+        <li><a class="btn-floating menu_edit waves-effect waves-ripple translucent-fab" href="/edit/{{ post.key().id() }}"><i class="material-icons">edit</i></a></li>
+        <li><a class="btn-floating menu_delete waves-effect waves-ripple translucent-fab" href="/delete/{{ post.key().id() }}"><i class="material-icons">delete</i></a></li>
+    </ul>
+</div>
+{% endblock %}

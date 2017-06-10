@@ -1,0 +1,44 @@
+{% extends "base.html" %} {% block content %}
+<div class="container">
+    <div class="row">
+        <form class="col m8 offset-m2 s10 offset-s1 post-edit-new post-edit-new-padding" method="post" id="new">
+
+            <div class="row">
+                <div class="input-field col s10 offset-s1  animi-shadow">
+                    <input id="post-title" name="post_title" type="text" class="validate white-text" value="{{post_title}}">
+                    <label for="post-title" class="label-new-edit">Title</label>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="input-field col s10 offset-s1 animi-shadow" style="margin-top: 1vh;">
+                    <input id="post-image-url" name="image_url" type="text" class="validate white-text" value="{{post_image_url}}">
+                    <label for="post-image-url" class="label-new-edit">Image Url</label>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="input-field col s10 offset-s1 animi-shadow" style="margin-top: 4vh;">
+                    <textarea class="materialize-textarea content-textarea white-text" name="post_content" id="post-content" cols="30" rows="100">{{post_content}}</textarea>
+                    <label for="post-content" class="content-label label-new-edit">Content</label>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col s10 offset-s1">
+                    <button type="button" onclick="validate_new_post()" class="btn btn-large left waves-effect waves-green float post-edit-new">Submit</button>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+
+<!-- Fab button -->
+<div class="fixed-action-btn">
+    <a class="btn-floating fab_menu btn-large waves-effect waves-ripple translucent-fab z-depth-2" href="/">
+        <i class="large material-icons">home</i>
+    </a>
+</div>
+{% endblock%}

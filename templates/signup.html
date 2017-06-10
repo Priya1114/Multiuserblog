@@ -1,0 +1,33 @@
+{% extends "base_login.html" %} {% block content %}
+<div class="login content-background" style="margin-top: 15vh;">
+    <div class="heading">
+        <h2>Sign Up</h2>
+        <form method="post" id="signup">
+
+            <div class="input-group input-group-lg">
+                <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                <input type="text" name="username" id='username' class="form-control" placeholder="Username" value="{{username}}" required>
+            </div>
+
+            <div class="input-group input-group-lg">
+                <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
+                <input type="email" name="email" id='email' class="form-control" placeholder="Email" value="{{email}}">
+            </div>
+
+            <div class="input-group input-group-lg">
+                <span class="input-group-addon"><i class="fa fa-lock"></i></span>
+                <input type="password" name="password" id="password" class="form-control" placeholder="Password" value="{{password}}" required>
+            </div>
+
+            <div class="input-group input-group-lg">
+                <span class="input-group-addon"><i class="fa fa-lock"></i></span>
+                <input type="password" name="verify_password" id="verify_password" class="form-control" placeholder="Retype Password" value="{{verify_password}}" required>
+            </div>
+            <span class="login-redirect">Already Registered? <a href="/login">Login here</a></span>
+
+
+            <button type="submit" onclick="validate_signup()" class="float">Sign Up</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
